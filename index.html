@@ -4,217 +4,182 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For Tiyasa ❤️</title>
-    <style>
-        /* --- CORE STYLES --- */
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500;700&display=swap');
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Sacramento&display=swap" rel="stylesheet">
 
+    <style>
         :root {
             --primary: #ff4d6d;
             --secondary: #ff8fa3;
-            --bg-color: #ffe5ec;
-            --glass: rgba(255, 255, 255, 0.4);
-            --glass-border: rgba(255, 255, 255, 0.7);
-            --text: #590d22;
+            --accent: #590d22;
+            --bg-gradient: linear-gradient(135deg, #fff0f3 0%, #ffe5ec 100%);
+            --glass: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.8);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Quicksand', sans-serif;
-            background: var(--bg-color);
-            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--accent);
             overflow-x: hidden;
             min-height: 100vh;
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- Z-INDEX LAYERS --- */
-        /* Background Canvas: -1 */
-        /* Content: 10 */
-        /* Overlays (Success): 100 */
-        /* Preloader: 1000 */
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3 { font-family: 'Sacramento', cursive; color: var(--primary); font-weight: 400; }
+        h1 { font-size: 4rem; line-height: 1; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+        h2 { font-size: 2.8rem; margin-bottom: 20px; }
+        p { font-size: 1rem; line-height: 1.6; color: #800f2f; }
 
-        #bg-canvas {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-        }
+        /* --- BACKGROUND --- */
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 
         /* --- PRELOADER --- */
         #preloader {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff0f3;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.8s ease, visibility 0.8s;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff0f3; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.8s ease;
         }
         .heart-beat { font-size: 4rem; animation: beat 0.8s infinite; }
 
-        /* --- CONTAINER & GLASSMORPHISM --- */
+        /* --- LAYOUT --- */
         .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            padding-bottom: 100px;
-            z-index: 10;
-            position: relative;
+            max-width: 600px; margin: 0 auto; padding: 20px; padding-bottom: 120px;
+            position: relative; z-index: 10;
         }
 
         .glass-card {
             background: var(--glass);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            border-radius: 25px;
+            padding: 30px 20px;
+            margin-bottom: 35px;
+            box-shadow: 0 10px 30px -5px rgba(255, 77, 109, 0.15);
             text-align: center;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease-out;
+            opacity: 0; transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
         }
+        .glass-card.visible { opacity: 1; transform: translateY(0); }
 
-        .glass-card.visible {
-            opacity: 1;
-            transform: translateY(0);
+        /* --- TIMELINE --- */
+        .timeline-item {
+            position: relative; padding-left: 20px; text-align: left;
+            border-left: 2px solid var(--secondary); margin-bottom: 20px;
         }
-
-        /* --- TYPOGRAPHY --- */
-        h1, h2, h3 { font-family: 'Dancing Script', cursive; color: var(--primary); }
-        h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 10px; }
-        h2 { font-size: 2.2rem; margin-bottom: 15px; }
-        p { font-size: 1.1rem; line-height: 1.6; margin-bottom: 15px; }
-
-        /* --- SPECIAL EFFECTS --- */
-        .date-badge {
-            display: inline-block;
-            background: #fff;
-            color: var(--primary);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 8px;
+        .timeline-item::before {
+            content: '❤️'; position: absolute; left: -11px; top: 0; font-size: 1.2rem;
+        }
+        .date-tag {
+            background: var(--primary); color: white; padding: 2px 10px;
+            border-radius: 10px; font-size: 0.8rem; font-weight: bold;
+            display: inline-block; margin-bottom: 5px;
         }
 
         /* --- PHOTO GALLERY --- */
-        .photo-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
+        .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .photo-frame {
-            background: white;
-            padding: 5px;
-            border-radius: 10px;
-            transform: rotate(-2deg);
-            transition: transform 0.3s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: white; padding: 6px; border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transform: rotate(-2deg); transition: transform 0.3s;
         }
-        .photo-frame:nth-child(even) { transform: rotate(2deg); }
+        .photo-frame:nth-child(even) { transform: rotate(2deg); margin-top: 15px; }
         .photo-frame:hover { transform: scale(1.05) rotate(0deg); z-index: 5; }
-        .photo-frame img { width: 100%; border-radius: 5px; display: block; }
-        .caption { font-size: 0.8rem; margin-top: 5px; font-family: 'Dancing Script'; }
-
-        /* --- NOTEBOOK --- */
-        .notebook-paper {
-            background: #fff;
-            background-image: linear-gradient(#f0f0f0 1px, transparent 1px);
-            background-size: 100% 1.5rem;
-            padding: 20px;
-            box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
-            text-align: left;
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.4rem;
-            line-height: 1.5rem;
-            transform: rotate(1deg);
+        
+        /* PHOTO PLACEHOLDERS */
+        .photo-img {
+            width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 8px;
+            background: #ffc2d1; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 0.8rem;
         }
 
-        /* --- LETTER ENVELOPES --- */
-        .envelopes-row { display: flex; justify-content: center; gap: 15px; margin-top: 10px; }
-        .envelope {
-            width: 60px; height: 40px; background: var(--primary);
-            position: relative; border-radius: 4px; cursor: pointer;
+        /* --- CUPID MODAL (CUSTOM ALERT) --- */
+        #cupid-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.3); z-index: 5000;
+            display: none; justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background: white; width: 85%; max-width: 350px;
+            border-radius: 20px; padding: 25px; text-align: center;
+            position: relative; animation: popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 3px solid var(--primary);
+        }
+        .cupid-icon {
+            font-size: 3rem; position: absolute; top: -30px; left: 50%;
+            transform: translateX(-50%); background: white; border-radius: 50%; padding: 5px;
+        }
+        .modal-text { font-size: 1.1rem; margin-top: 15px; margin-bottom: 20px; font-family: 'Sacramento', cursive; font-size: 1.8rem; line-height: 1.2;}
+        .close-btn {
+            background: var(--primary); color: white; border: none;
+            padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;
+        }
+
+        /* --- GAMES & INTERACTIVE --- */
+        .letter-box {
+            display: flex; justify-content: center; gap: 15px; margin-top: 15px;
+        }
+        .letter {
+            width: 50px; height: 35px; background: #fff; border: 2px solid var(--primary);
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem; color: white; transition: transform 0.2s;
+            cursor: pointer; transition: transform 0.2s; position: relative;
         }
-        .envelope:hover { transform: translateY(-5px); }
-        .envelope::before {
-            content: ''; position: absolute; top:0; left:0;
-            border-left: 30px solid transparent; border-right: 30px solid transparent;
-            border-top: 20px solid rgba(255,255,255,0.3);
+        .letter:hover { transform: translateY(-5px); }
+        .letter::before { /* Envelope triangle */
+            content: ''; position: absolute; top: 0; border-top: 18px solid var(--secondary);
+            border-left: 23px solid transparent; border-right: 23px solid transparent;
         }
 
-        /* --- GAMES --- */
-        .game-box {
-            height: 200px;
-            background: rgba(255,255,255,0.5);
-            border-radius: 15px;
-            position: relative;
-            overflow: hidden;
-            border: 2px dashed var(--secondary);
-            cursor: pointer;
-            touch-action: none; /* Prevents scrolling while playing */
+        /* Quiz Styles */
+        .quiz-options button {
+            display: block; width: 100%; padding: 10px; margin: 8px 0;
+            background: white; border: 1px solid var(--primary); border-radius: 10px;
+            color: var(--primary); font-weight: bold; cursor: pointer;
         }
-        .floater-heart {
-            position: absolute;
-            font-size: 24px;
-            animation: floatUp 3s linear infinite;
-            user-select: none;
-        }
-        
-        /* --- PROPOSAL BUTTONS --- */
-        .proposal-area { position: relative; height: 150px; display: flex; flex-direction: column; align-items: center; }
+        .quiz-options button.correct { background: var(--primary); color: white; }
+        .quiz-options button.wrong { background: #590d22; color: white; opacity: 0.5; }
+
+        /* --- PROPOSAL --- */
+        .proposal-area { height: 150px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .btn-yes {
-            background: var(--primary); color: white;
-            padding: 15px 40px; border-radius: 50px;
-            border: none; font-size: 1.5rem; font-weight: bold;
-            box-shadow: 0 5px 20px rgba(255, 77, 109, 0.5);
-            cursor: pointer; z-index: 50;
-            transition: transform 0.2s;
+            background: var(--primary); color: white; font-size: 1.5rem;
+            padding: 15px 50px; border-radius: 50px; border: none;
+            box-shadow: 0 5px 20px rgba(255, 77, 109, 0.4); cursor: pointer;
+            z-index: 20; animation: pulse 2s infinite;
         }
-        .btn-yes:active { transform: scale(0.95); }
-        
         .btn-no {
-            background: white; color: var(--text);
-            padding: 10px 20px; border-radius: 50px;
-            border: 1px solid var(--text); position: absolute;
-            font-weight: bold; cursor: pointer;
-            bottom: 0; transition: all 0.1s ease;
+            position: absolute; bottom: 10px; background: transparent;
+            border: 1px solid var(--accent); padding: 8px 20px; border-radius: 20px;
+            font-size: 0.9rem;
         }
 
         /* --- SUCCESS OVERLAY --- */
         #success-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 229, 236, 0.95);
-            z-index: 2000;
-            display: none; /* Hidden by default */
-            flex-direction: column;
-            justify-content: center; align-items: center;
-            text-align: center;
+            background: #fff0f3; z-index: 6000;
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 1s;
         }
-        
-        #burst-heart {
-            position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            font-size: 20rem; color: var(--primary);
-            z-index: 2001; pointer-events: none;
+        .back-btn {
+            margin-top: 30px; background: transparent; border: 2px solid var(--primary);
+            color: var(--primary); padding: 10px 30px; border-radius: 30px;
+            font-weight: bold; cursor: pointer;
         }
 
         /* --- ANIMATIONS --- */
-        @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-        @keyframes floatUp { 0% { top: 100%; opacity: 1; } 100% { top: -20%; opacity: 0; } }
-        @keyframes heartBurst {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(20); opacity: 0; }
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 77, 109, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0); } }
+        @keyframes popUp { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes fall { 0% { top: -10%; transform: translateX(0) rotate(0deg); opacity: 1; } 100% { top: 110%; transform: translateX(20px) rotate(360deg); opacity: 0; } }
+
+        .petal { position: fixed; z-index: 7000; pointer-events: none; }
 
     </style>
 </head>
@@ -222,271 +187,228 @@
 
     <div id="preloader">
         <div class="heart-beat">❤️</div>
-        <h2 style="margin-top:20px;">For Tiyasa...</h2>
+        <p style="margin-top: 10px; font-weight: bold;">Loading Love...</p>
     </div>
 
     <canvas id="bg-canvas"></canvas>
 
-    <div id="burst-heart">💖</div>
+    <div id="cupid-modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="cupid-icon">💘</div>
+            <p class="modal-text" id="modal-msg">Message here</p>
+            <button class="close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
 
     <div id="success-overlay">
-        <h1 style="font-size: 5rem; animation: beat 1s infinite;">I LOVE YOU!</h1>
-        <p style="font-size: 1.5rem;">Happy Valentine's Day, My Love! 🌹</p>
-        <p>You made me the happiest person alive.</p>
-        <div style="font-size: 4rem; margin-top:20px;">💑🎉</div>
+        <h1 style="font-size: 5rem; animation: beat 0.8s infinite;">I LOVE YOU!</h1>
+        <p style="font-size: 1.5rem;">Happy Valentine's Day Tiyasa! 🦋</p>
+        <p>You are my forever.</p>
+        <button class="back-btn" onclick="resetSite()">Replay Memories</button>
     </div>
 
     <div class="container">
-        
-        <div class="glass-card">
-            <h1>Hi Tiyasa 🦋</h1>
-            <p>I created this little world just for you. A place to keep our memories and my love safe.</p>
+
+        <div class="glass-card fade-in">
+            <h1>Hi Tiyasa</h1>
+            <p>Welcome to your personal love capsule. A little digital corner I made just for you.</p>
         </div>
 
-        <div class="glass-card">
-            <h2>Our Story ✨</h2>
-            <div style="text-align: left; margin-top: 10px;">
-                <div style="border-left: 3px solid var(--primary); padding-left: 15px; margin-bottom: 20px;">
-                    <span class="date-badge">4th April, 2023</span>
-                    <p><strong>The Beginning.</strong> The day we started knowing each other. I didn't know it then, but my life changed forever.</p>
-                </div>
-                <div style="border-left: 3px solid var(--primary); padding-left: 15px;">
-                    <span class="date-badge">9th May, 2023</span>
-                    <p><strong>The Confession.</strong> From friends to "us". Everything became so special, so soothing. You are my peace.</p>
-                </div>
+        <div class="glass-card fade-in">
+            <h2>Our Journey</h2>
+            <div class="timeline-item">
+                <span class="date-tag">4th April, 2023</span>
+                <p><strong>The Spark.</strong> The day we started knowing each other. My world got a little brighter.</p>
+            </div>
+            <div class="timeline-item">
+                <span class="date-tag">9th May, 2023</span>
+                <p><strong>The Confession.</strong> The day "You & I" became "Us". It’s been so special and soothing ever since.</p>
             </div>
         </div>
 
-        <div class="glass-card">
-            <h2>Moments 📸</h2>
+        <div class="glass-card fade-in">
+            <h2>Our Moments</h2>
             <div class="photo-grid">
                 <div class="photo-frame">
-                    <div style="width:100%; height:120px; background:#ffc2d1;"></div>
-                    <div class="caption">First Smile</div>
+                    <img src="images/photo1.jpg" onerror="this.src='https://placehold.co/200x200/ffc2d1/white?text=Smile'" class="photo-img" alt="Us">
                 </div>
                 <div class="photo-frame">
-                    <div style="width:100%; height:120px; background:#ffe5ec;"></div>
-                    <div class="caption">Crazy Us</div>
+                    <img src="images/photo2.jpg" onerror="this.src='https://placehold.co/200x200/ff8fa3/white?text=Love'" class="photo-img" alt="Love">
                 </div>
                 <div class="photo-frame">
-                    <div style="width:100%; height:120px; background:#fb6f92;"></div>
-                    <div class="caption">Pure Joy</div>
+                    <img src="images/photo3.jpg" onerror="this.src='https://placehold.co/200x200/ff4d6d/white?text=Fun'" class="photo-img" alt="Fun">
                 </div>
                 <div class="photo-frame">
-                    <div style="width:100%; height:120px; background:#ff8fa3;"></div>
-                    <div class="caption">My Favorite</div>
+                    <img src="images/photo4.jpg" onerror="this.src='https://placehold.co/200x200/590d22/white?text=Crazy'" class="photo-img" alt="Crazy">
                 </div>
+            </div>
+            <p style="margin-top:10px; font-size:0.8rem;">(These memories mean the world to me)</p>
+        </div>
+
+        <div class="glass-card fade-in">
+            <h2>Cupid's Notes 🏹</h2>
+            <p>Tap an envelope for a secret message!</p>
+            <div class="letter-box">
+                <div class="letter" onclick="showCupidMessage('You make my heart smile every single day. 😊')"></div>
+                <div class="letter" onclick="showCupidMessage('I am so lucky that you chose me. 🍀')"></div>
+                <div class="letter" onclick="showCupidMessage('You are the most beautiful person I know. 💖')"></div>
+                <div class="letter" onclick="showCupidMessage('I love your laugh more than anything! 😂')"></div>
             </div>
         </div>
 
-        <div class="glass-card">
-            <h2>My Diary 📝</h2>
-            <div class="notebook-paper">
-                "Tiyasa, you have this magic about you. You make the ordinary feel extraordinary. I love your laugh, your voice, and how you care. You are my home."
+        <div class="glass-card fade-in">
+            <h2>Do you remember? 🤔</h2>
+            <p>When did we confess?</p>
+            <div class="quiz-options">
+                <button onclick="wrongAnswer(this)">1st January</button>
+                <button onclick="correctAnswer(this)">9th May 2023</button>
+                <button onclick="wrongAnswer(this)">14th Feb</button>
             </div>
+            <p id="quiz-feedback" style="height: 20px; margin-top: 5px; font-weight: bold;"></p>
         </div>
 
-        <div class="glass-card">
-            <h2>Open a Letter 💌</h2>
-            <p>Tap one to read a secret note...</p>
-            <div class="envelopes-row">
-                <div class="envelope" onclick="alert('You are the most beautiful person I know, inside and out! 🌹')">1</div>
-                <div class="envelope" onclick="alert('I promise to always be there, through thick and thin. 🤝')">2</div>
-                <div class="envelope" onclick="alert('Can I keep you forever? Because I plan to. 💍')">3</div>
-            </div>
+        <div class="glass-card fade-in">
+            <h2>My Promises 💍</h2>
+            <ul style="text-align: left; list-style: none; padding-left: 10px;">
+                <li style="margin-bottom: 10px;">✨ To always support your dreams.</li>
+                <li style="margin-bottom: 10px;">✨ To listen when you need to talk.</li>
+                <li style="margin-bottom: 10px;">✨ To make you laugh when you're sad.</li>
+                <li style="margin-bottom: 10px;">✨ To love you more every day.</li>
+            </ul>
         </div>
 
-        <div class="glass-card">
-            <h2>💘 Cupid's Target</h2>
-            <p>Tap the flying hearts! Score: <span id="score">0</span></p>
-            <div class="game-box" id="click-game">
-                </div>
-        </div>
-
-        <div class="glass-card" style="margin-bottom: 80px;">
-            <h2>The Big Question</h2>
-            <p>My life is better because you are in it.</p>
-            <h3 style="margin: 20px 0; font-size: 1.8rem;">Will you be my Valentine?</h3>
+        <div class="glass-card fade-in" style="margin-bottom: 60px;">
+            <h2>The Question</h2>
+            <p>You are my favorite person.</p>
+            <h3 style="margin: 20px 0;">Will you be my Valentine?</h3>
             
             <div class="proposal-area">
-                <button class="btn-yes" onclick="acceptProposal()">YES! ❤️</button>
-                <button class="btn-no" id="runaway-btn">No 🙈</button>
+                <button class="btn-yes" onclick="celebrate()">YES! ❤️</button>
+                <button class="btn-no" id="runaway-btn">No</button>
             </div>
         </div>
 
     </div>
 
     <script>
-        /* --- 1. SAFE LOAD SYSTEM (Prevents Stuck Screen) --- */
+        /* --- 1. PRELOADER --- */
         window.addEventListener('load', () => {
-            setTimeout(removePreloader, 1000); // Wait 1 sec then force remove
+            setTimeout(() => {
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('preloader').style.display = 'none';
+                    initScroll();
+                }, 800);
+            }, 1000);
         });
-        
-        // Backup safety: If load takes too long (3s), force open anyway
-        setTimeout(removePreloader, 3000);
 
-        function removePreloader() {
-            const preloader = document.getElementById('preloader');
-            if(preloader.style.opacity !== '0') {
-                preloader.style.opacity = '0';
-                preloader.style.visibility = 'hidden';
-                initScrollAnimations(); // Start animations only after load
-            }
-        }
-
-        /* --- 2. SCROLL ANIMATIONS (Intersection Observer) --- */
-        function initScrollAnimations() {
+        /* --- 2. SCROLL ANIMATIONS --- */
+        function initScroll() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
                 });
             }, { threshold: 0.1 });
-
-            document.querySelectorAll('.glass-card').forEach(card => {
-                observer.observe(card);
-            });
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
         }
 
-        /* --- 3. DYNAMIC BACKGROUND (Optimized) --- */
+        /* --- 3. CUSTOM CUPID MODAL --- */
+        function showCupidMessage(msg) {
+            const modal = document.getElementById('cupid-modal');
+            const text = document.getElementById('modal-msg');
+            text.innerText = msg;
+            modal.style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('cupid-modal').style.display = 'none';
+        }
+
+        /* --- 4. QUIZ LOGIC --- */
+        function correctAnswer(btn) {
+            btn.classList.add('correct');
+            document.getElementById('quiz-feedback').innerText = "Correct! You know us so well! 😘";
+            createConfetti(btn.getBoundingClientRect().left, btn.getBoundingClientRect().top);
+        }
+        function wrongAnswer(btn) {
+            btn.classList.add('wrong');
+            document.getElementById('quiz-feedback').innerText = "Oops! Try again! 🙈";
+        }
+
+        /* --- 5. RUNAWAY BUTTON --- */
+        const noBtn = document.getElementById('runaway-btn');
+        const moveBtn = () => {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        };
+        noBtn.addEventListener('mouseover', moveBtn);
+        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveBtn(); });
+
+        /* --- 6. CELEBRATION (ROSE RAIN) --- */
+        function celebrate() {
+            const overlay = document.getElementById('success-overlay');
+            overlay.style.display = 'flex';
+            setTimeout(() => { overlay.style.opacity = '1'; }, 50);
+            
+            // Start Rose Rain
+            setInterval(createPetal, 300);
+        }
+
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.innerHTML = '🌹';
+            petal.className = 'petal';
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            petal.style.animation = `fall ${Math.random() * 3 + 2}s linear`;
+            document.body.appendChild(petal);
+            setTimeout(() => petal.remove(), 5000);
+        }
+
+        function resetSite() {
+            document.getElementById('success-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('success-overlay').style.display = 'none';
+                window.scrollTo(0,0);
+            }, 1000);
+        }
+
+        function createConfetti(x, y) {
+            // Simple visual feedback for quiz
+            const el = document.createElement('div');
+            el.innerText = '❤️'; el.style.position='fixed'; el.style.left=x+'px'; el.style.top=y+'px';
+            el.style.transition='all 0.5s'; el.style.zIndex='1000';
+            document.body.appendChild(el);
+            setTimeout(()=>{ el.style.transform='translateY(-50px)'; el.style.opacity='0'; },50);
+            setTimeout(()=>el.remove(),500);
+        }
+
+        /* --- 7. BACKGROUND CANVAS --- */
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        const hearts = [];
-        function createHeart() {
-            return {
-                x: Math.random() * canvas.width,
-                y: canvas.height + 20,
-                size: Math.random() * 15 + 5,
-                speed: Math.random() * 1 + 0.5,
-                opacity: Math.random() * 0.5 + 0.1
-            };
-        }
-
-        // Initialize 30 hearts
-        for(let i=0; i<30; i++) hearts.push({ ...createHeart(), y: Math.random() * canvas.height });
-
-        function animateBg() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#ff4d6d';
-            
-            hearts.forEach(h => {
-                h.y -= h.speed;
-                if(h.y < -20) Object.assign(h, createHeart()); // Reset if goes off screen
-                
-                ctx.globalAlpha = h.opacity;
-                ctx.font = h.size + "px Arial";
-                ctx.fillText("❤️", h.x, h.y);
+        let particles = [];
+        for(let i=0; i<30; i++) {
+            particles.push({
+                x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+                r: Math.random()*10+5, s: Math.random()*1+0.5
             });
-            requestAnimationFrame(animateBg);
         }
-        animateBg();
-
-        /* --- 4. GAME LOGIC (Simple & Robust) --- */
-        const gameBox = document.getElementById('click-game');
-        const scoreSpan = document.getElementById('score');
-        let score = 0;
-
-        function spawnGameHeart() {
-            const heart = document.createElement('div');
-            heart.innerText = '💘';
-            heart.className = 'floater-heart';
-            heart.style.left = Math.random() * 80 + 10 + '%'; // Keep inside box
-            heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
-            
-            heart.onclick = (e) => {
-                e.stopPropagation(); // Stop click from bubbling
-                score++;
-                scoreSpan.innerText = score;
-                heart.remove();
-                createConfetti(e.clientX, e.clientY);
-            };
-
-            gameBox.appendChild(heart);
-
-            // Clean up after animation
-            setTimeout(() => { if(heart.parentElement) heart.remove(); }, 4000);
+        function drawBg() {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.fillStyle = '#ffb3c1';
+            particles.forEach(p => {
+                p.y -= p.s;
+                if(p.y < -10) p.y = canvas.height+10;
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.r/2, 0, Math.PI*2); ctx.fill();
+            });
+            requestAnimationFrame(drawBg);
         }
+        drawBg();
 
-        setInterval(spawnGameHeart, 800); // Spawn every 0.8s
-
-        /* --- 5. THE UNCLICKABLE NO BUTTON --- */
-        const noBtn = document.getElementById('runaway-btn');
-        const proposalArea = document.querySelector('.proposal-area');
-
-        // Logic for both mouse and touch
-        const runAway = () => {
-            const areaRect = proposalArea.getBoundingClientRect();
-            const maxX = window.innerWidth - 100;
-            const maxY = window.innerHeight - 50;
-            
-            // Random position fixed on screen
-            const randomX = Math.random() * (maxX - 20) + 10;
-            const randomY = Math.random() * (maxY - 20) + 10;
-            
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
-            noBtn.style.zIndex = '100';
-        };
-
-        noBtn.addEventListener('mouseover', runAway);
-        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); runAway(); }); // Prevent click on touch
-
-        /* --- 6. PROPOSAL ACCEPTED (Finale) --- */
-        function acceptProposal() {
-            // 1. Play Heart Burst Animation
-            const burst = document.getElementById('burst-heart');
-            burst.style.animation = 'heartBurst 1s forwards';
-
-            // 2. Show Success Overlay after short delay
-            setTimeout(() => {
-                const overlay = document.getElementById('success-overlay');
-                overlay.style.display = 'flex';
-                overlay.style.animation = 'fadeIn 1s forwards';
-                
-                // 3. Infinite Confetti in background
-                setInterval(() => {
-                    const c = document.createElement('div');
-                    c.innerText = ['🎉','🌹','💖'][Math.floor(Math.random()*3)];
-                    c.style.position = 'fixed';
-                    c.style.left = Math.random()*100 + 'vw';
-                    c.style.top = '-10px';
-                    c.style.fontSize = '20px';
-                    c.style.animation = 'floatUp 3s linear';
-                    c.style.zIndex = '2002';
-                    document.body.appendChild(c);
-                    setTimeout(() => c.remove(), 3000);
-                }, 200);
-            }, 600);
-        }
-
-        /* Helper for game confetti */
-        function createConfetti(x, y) {
-            const el = document.createElement('div');
-            el.innerText = '❤️';
-            el.style.position = 'fixed';
-            el.style.left = x + 'px';
-            el.style.top = y + 'px';
-            el.style.transition = 'transform 0.5s, opacity 0.5s';
-            el.style.pointerEvents = 'none';
-            el.style.zIndex = '100';
-            document.body.appendChild(el);
-            
-            setTimeout(() => {
-                el.style.transform = 'translateY(-30px) scale(1.5)';
-                el.style.opacity = '0';
-            }, 10);
-            setTimeout(() => el.remove(), 500);
-        }
     </script>
 </body>
 </html>
