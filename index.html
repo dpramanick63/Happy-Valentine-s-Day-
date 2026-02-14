@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,277 +14,227 @@
         :root {
             --primary: #ff4d6d;
             --secondary: #ff8fa3;
-            --accent: #590d22;
-            --bg-gradient: linear-gradient(135deg, #fff0f3 0%, #ffe5ec 100%);
-            --glass: rgba(255, 255, 255, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.8);
+            --dark: #590d22;
+            --light: #fff0f3;
+            --glass: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.9);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
+            margin: 0; padding: 0;
             font-family: 'Montserrat', sans-serif;
-            background: var(--bg-gradient);
-            color: var(--accent);
+            background: linear-gradient(180deg, #fff0f3 0%, #ffe5ec 100%);
+            color: var(--dark);
             overflow-x: hidden;
             min-height: 100vh;
-            -webkit-tap-highlight-color: transparent;
         }
 
         /* --- TYPOGRAPHY --- */
-        h1, h2, h3 { font-family: 'Sacramento', cursive; color: var(--primary); font-weight: 400; }
-        h1 { font-size: 4rem; line-height: 1; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
-        h2 { font-size: 2.8rem; margin-bottom: 20px; }
-        p { font-size: 1rem; line-height: 1.6; color: #800f2f; }
-
-        /* --- BACKGROUND --- */
-        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-
-        /* --- PRELOADER --- */
-        #preloader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff0f3; z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.8s ease;
-        }
-        .heart-beat { font-size: 4rem; animation: beat 0.8s infinite; }
+        h1, h2, h3 { font-family: 'Sacramento', cursive; color: var(--primary); font-weight: 400; margin: 0; }
+        h1 { font-size: 3.5rem; line-height: 1.2; text-shadow: 2px 2px 0px rgba(255,255,255,0.5); }
+        h2 { font-size: 2.5rem; margin-bottom: 15px; }
+        p { font-size: 1rem; line-height: 1.6; margin-bottom: 15px; }
 
         /* --- LAYOUT --- */
         .container {
-            max-width: 600px; margin: 0 auto; padding: 20px; padding-bottom: 120px;
-            position: relative; z-index: 10;
+            max-width: 100%;
+            padding: 20px;
+            padding-bottom: 100px;
+            position: relative;
+            z-index: 2;
         }
 
-        .glass-card {
+        .card {
             background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border: 1px solid var(--glass-border);
-            border-radius: 25px;
-            padding: 30px 20px;
-            margin-bottom: 35px;
-            box-shadow: 0 10px 30px -5px rgba(255, 77, 109, 0.15);
+            border-radius: 20px;
+            padding: 25px 20px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
             text-align: center;
             opacity: 0; transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: all 0.6s ease-out;
         }
-        .glass-card.visible { opacity: 1; transform: translateY(0); }
+        .card.visible { opacity: 1; transform: translateY(0); }
 
-        /* --- TIMELINE --- */
-        .timeline-item {
-            position: relative; padding-left: 20px; text-align: left;
-            border-left: 2px solid var(--secondary); margin-bottom: 20px;
-        }
-        .timeline-item::before {
-            content: '❤️'; position: absolute; left: -11px; top: 0; font-size: 1.2rem;
-        }
-        .date-tag {
-            background: var(--primary); color: white; padding: 2px 10px;
-            border-radius: 10px; font-size: 0.8rem; font-weight: bold;
-            display: inline-block; margin-bottom: 5px;
-        }
-
-        /* --- PHOTO GALLERY --- */
-        .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .photo-frame {
-            background: white; padding: 6px; border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transform: rotate(-2deg); transition: transform 0.3s;
-        }
-        .photo-frame:nth-child(even) { transform: rotate(2deg); margin-top: 15px; }
-        .photo-frame:hover { transform: scale(1.05) rotate(0deg); z-index: 5; }
+        /* --- SPECIAL SECTIONS --- */
         
-        /* PHOTO PLACEHOLDERS */
-        .photo-img {
-            width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 8px;
-            background: #ffc2d1; display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 0.8rem;
+        /* 1. Timer */
+        .timer-box {
+            display: flex; justify-content: space-around;
+            background: white; border-radius: 15px; padding: 15px 5px;
+            margin-top: 10px;
+        }
+        .time-unit { display: flex; flex-direction: column; }
+        .time-val { font-size: 1.2rem; font-weight: bold; color: var(--primary); }
+        .time-label { font-size: 0.7rem; text-transform: uppercase; }
+
+        /* 2. Music Player */
+        .music-player {
+            display: flex; align-items: center; background: white;
+            border-radius: 50px; padding: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .play-btn {
+            width: 40px; height: 40px; background: var(--primary); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; color: white;
+            font-size: 1.2rem; margin-right: 15px; animation: pulse 2s infinite;
+        }
+        .song-info { text-align: left; line-height: 1.2; }
+        .song-title { font-weight: bold; font-size: 0.9rem; }
+        .song-artist { font-size: 0.7rem; opacity: 0.7; }
+
+        /* 3. Carousel (Swipeable) */
+        .carousel {
+            display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+            gap: 15px; padding-bottom: 10px; -webkit-overflow-scrolling: touch;
+        }
+        .carousel-card {
+            min-width: 80%; scroll-snap-align: center;
+            background: white; padding: 20px; border-radius: 15px;
+            border: 2px solid #fff0f3;
         }
 
-        /* --- CUPID MODAL (CUSTOM ALERT) --- */
-        #cupid-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.3); z-index: 5000;
-            display: none; justify-content: center; align-items: center;
+        /* 4. Balloons Game */
+        #balloon-canvas {
+            width: 100%; height: 250px; background: rgba(255,255,255,0.3);
+            border-radius: 15px; border: 2px dashed var(--secondary);
+            touch-action: none;
         }
-        .modal-content {
-            background: white; width: 85%; max-width: 350px;
-            border-radius: 20px; padding: 25px; text-align: center;
-            position: relative; animation: popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 3px solid var(--primary);
-        }
-        .cupid-icon {
-            font-size: 3rem; position: absolute; top: -30px; left: 50%;
-            transform: translateX(-50%); background: white; border-radius: 50%; padding: 5px;
-        }
-        .modal-text { font-size: 1.1rem; margin-top: 15px; margin-bottom: 20px; font-family: 'Sacramento', cursive; font-size: 1.8rem; line-height: 1.2;}
-        .close-btn {
-            background: var(--primary); color: white; border: none;
-            padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: bold;
-        }
-
-        /* --- GAMES & INTERACTIVE --- */
-        .letter-box {
-            display: flex; justify-content: center; gap: 15px; margin-top: 15px;
-        }
-        .letter {
-            width: 50px; height: 35px; background: #fff; border: 2px solid var(--primary);
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: transform 0.2s; position: relative;
-        }
-        .letter:hover { transform: translateY(-5px); }
-        .letter::before { /* Envelope triangle */
-            content: ''; position: absolute; top: 0; border-top: 18px solid var(--secondary);
-            border-left: 23px solid transparent; border-right: 23px solid transparent;
-        }
-
-        /* Quiz Styles */
-        .quiz-options button {
-            display: block; width: 100%; padding: 10px; margin: 8px 0;
-            background: white; border: 1px solid var(--primary); border-radius: 10px;
-            color: var(--primary); font-weight: bold; cursor: pointer;
-        }
-        .quiz-options button.correct { background: var(--primary); color: white; }
-        .quiz-options button.wrong { background: #590d22; color: white; opacity: 0.5; }
 
         /* --- PROPOSAL --- */
-        .proposal-area { height: 150px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .btn-yes {
-            background: var(--primary); color: white; font-size: 1.5rem;
-            padding: 15px 50px; border-radius: 50px; border: none;
-            box-shadow: 0 5px 20px rgba(255, 77, 109, 0.4); cursor: pointer;
-            z-index: 20; animation: pulse 2s infinite;
+        .proposal-area {
+            position: relative; height: 160px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
+        .btn-yes {
+            background: var(--primary); color: white;
+            font-size: 1.4rem; padding: 15px 60px; border-radius: 50px;
+            border: none; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+            font-weight: bold; z-index: 10; transition: transform 0.2s;
+        }
+        .btn-yes:active { transform: scale(0.95); }
+        
         .btn-no {
-            position: absolute; bottom: 10px; background: transparent;
-            border: 1px solid var(--accent); padding: 8px 20px; border-radius: 20px;
-            font-size: 0.9rem;
+            position: absolute; bottom: 10px;
+            background: white; border: 1px solid var(--dark);
+            padding: 8px 25px; border-radius: 20px;
+            font-size: 0.9rem; font-weight: bold;
         }
 
-        /* --- SUCCESS OVERLAY --- */
+        /* --- SUCCESS OVERLAY (FIXED MOBILE) --- */
         #success-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff0f3; z-index: 6000;
+            background: #fff0f3; z-index: 9999;
             display: none; flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 1s;
+            text-align: center; padding: 20px;
         }
-        .back-btn {
-            margin-top: 30px; background: transparent; border: 2px solid var(--primary);
-            color: var(--primary); padding: 10px 30px; border-radius: 30px;
-            font-weight: bold; cursor: pointer;
-        }
+        /* Heart Explosion Animation */
+        .big-heart { font-size: 8rem; animation: heartbeat 1s infinite; margin-bottom: 20px; }
 
         /* --- ANIMATIONS --- */
-        @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 77, 109, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0); } }
-        @keyframes popUp { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        @keyframes fall { 0% { top: -10%; transform: translateX(0) rotate(0deg); opacity: 1; } 100% { top: 110%; transform: translateX(20px) rotate(360deg); opacity: 0; } }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255,77,109,0.7); } 70% { box-shadow: 0 0 0 10px rgba(255,77,109,0); } 100% { box-shadow: 0 0 0 0 rgba(255,77,109,0); } }
+        @keyframes heartbeat { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
 
-        .petal { position: fixed; z-index: 7000; pointer-events: none; }
-
+        /* --- UTILS --- */
+        .hidden { display: none; }
+        .canvas-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
     </style>
 </head>
 <body>
 
-    <div id="preloader">
-        <div class="heart-beat">❤️</div>
-        <p style="margin-top: 10px; font-weight: bold;">Loading Love...</p>
-    </div>
-
-    <canvas id="bg-canvas"></canvas>
-
-    <div id="cupid-modal" onclick="closeModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="cupid-icon">💘</div>
-            <p class="modal-text" id="modal-msg">Message here</p>
-            <button class="close-btn" onclick="closeModal()">Close</button>
-        </div>
-    </div>
+    <canvas id="bg-canvas" class="canvas-bg"></canvas>
 
     <div id="success-overlay">
-        <h1 style="font-size: 5rem; animation: beat 0.8s infinite;">I LOVE YOU!</h1>
-        <p style="font-size: 1.5rem;">Happy Valentine's Day Tiyasa! 🦋</p>
-        <p>You are my forever.</p>
-        <button class="back-btn" onclick="resetSite()">Replay Memories</button>
+        <div class="big-heart">💖</div>
+        <h1 style="font-size: 3rem; margin-bottom: 10px;">I LOVE YOU!</h1>
+        <p style="font-size: 1.2rem;">You just made me the happiest person in the universe.</p>
+        <p>Happy Valentine's Day Tiyasa! 🦋</p>
+        <button onclick="location.reload()" style="margin-top: 30px; padding: 10px 30px; border-radius: 20px; border: 2px solid var(--primary); background: transparent; color: var(--primary); font-weight: bold;">Replay Our Story</button>
     </div>
 
     <div class="container">
 
-        <div class="glass-card fade-in">
+        <div class="card visible">
+            <div class="music-player">
+                <div class="play-btn">▶</div>
+                <div class="song-info">
+                    <div class="song-title">Perfect</div>
+                    <div class="song-artist">Playing for Tiyasa...</div>
+                </div>
+            </div>
             <h1>Hi Tiyasa</h1>
-            <p>Welcome to your personal love capsule. A little digital corner I made just for you.</p>
+            <p>I built this so you know exactly how much you mean to me.</p>
         </div>
 
-        <div class="glass-card fade-in">
-            <h2>Our Journey</h2>
-            <div class="timeline-item">
-                <span class="date-tag">4th April, 2023</span>
-                <p><strong>The Spark.</strong> The day we started knowing each other. My world got a little brighter.</p>
-            </div>
-            <div class="timeline-item">
-                <span class="date-tag">9th May, 2023</span>
-                <p><strong>The Confession.</strong> The day "You & I" became "Us". It’s been so special and soothing ever since.</p>
+        <div class="card visible">
+            <h2>Counting Every Second ⏳</h2>
+            <p>Time since April 4th, 2023:</p>
+            <div class="timer-box" id="timer">
+                <div class="time-unit"><span class="time-val" id="days">0</span><span class="time-label">Days</span></div>
+                <div class="time-unit"><span class="time-val" id="hours">0</span><span class="time-label">Hrs</span></div>
+                <div class="time-unit"><span class="time-val" id="mins">0</span><span class="time-label">Mins</span></div>
+                <div class="time-unit"><span class="time-val" id="secs">0</span><span class="time-label">Secs</span></div>
             </div>
         </div>
 
-        <div class="glass-card fade-in">
-            <h2>Our Moments</h2>
-            <div class="photo-grid">
-                <div class="photo-frame">
-                    <img src="images/photo1.jpg" onerror="this.src='https://placehold.co/200x200/ffc2d1/white?text=Smile'" class="photo-img" alt="Us">
+        <div class="card visible">
+            <h2>Our Timeline 📅</h2>
+            <div style="text-align: left; padding: 0 10px;">
+                <p><strong>🌱 April 4, 2023</strong><br>The day we started knowing each other. The spark began.</p>
+                <hr style="border: 0; border-top: 1px dashed var(--secondary); margin: 15px 0;">
+                <p><strong>💑 May 9, 2023</strong><br>The Confession. The moment we became "Us". It was the most soothing day of my life.</p>
+            </div>
+        </div>
+
+        <div class="card visible" style="padding: 15px 0; background: transparent; border: none; box-shadow: none;">
+            <h2 style="margin-bottom: 10px;">Why I Love You</h2>
+            <div class="carousel">
+                <div class="carousel-card">
+                    <div style="font-size: 3rem;">😊</div>
+                    <h3>Your Smile</h3>
+                    <p>It literally lights up my darkest days.</p>
                 </div>
-                <div class="photo-frame">
-                    <img src="images/photo2.jpg" onerror="this.src='https://placehold.co/200x200/ff8fa3/white?text=Love'" class="photo-img" alt="Love">
+                <div class="carousel-card">
+                    <div style="font-size: 3rem;">🦋</div>
+                    <h3>Your Soul</h3>
+                    <p>You are kind, understanding, and so pure.</p>
                 </div>
-                <div class="photo-frame">
-                    <img src="images/photo3.jpg" onerror="this.src='https://placehold.co/200x200/ff4d6d/white?text=Fun'" class="photo-img" alt="Fun">
-                </div>
-                <div class="photo-frame">
-                    <img src="images/photo4.jpg" onerror="this.src='https://placehold.co/200x200/590d22/white?text=Crazy'" class="photo-img" alt="Crazy">
+                <div class="carousel-card">
+                    <div style="font-size: 3rem;">🤣</div>
+                    <h3>Your Laugh</h3>
+                    <p>The cutest sound in the world.</p>
                 </div>
             </div>
-            <p style="margin-top:10px; font-size:0.8rem;">(These memories mean the world to me)</p>
+            <p style="font-size: 0.8rem; margin-top: 5px;">(Swipe left to see more)</p>
         </div>
 
-        <div class="glass-card fade-in">
-            <h2>Cupid's Notes 🏹</h2>
-            <p>Tap an envelope for a secret message!</p>
-            <div class="letter-box">
-                <div class="letter" onclick="showCupidMessage('You make my heart smile every single day. 😊')"></div>
-                <div class="letter" onclick="showCupidMessage('I am so lucky that you chose me. 🍀')"></div>
-                <div class="letter" onclick="showCupidMessage('You are the most beautiful person I know. 💖')"></div>
-                <div class="letter" onclick="showCupidMessage('I love your laugh more than anything! 😂')"></div>
+        <div class="card visible">
+            <h2>Pop the Love Balloons 🎈</h2>
+            <p>Tap the balloons to pop them!</p>
+            <p style="font-size: 0.9rem; color: var(--primary);">Score: <span id="balloon-score">0</span></p>
+            <canvas id="balloon-canvas"></canvas>
+        </div>
+
+        <div class="card visible">
+            <h2>A Special Note 💌</h2>
+            <div style="background: white; padding: 20px; border-radius: 10px; font-family: 'Sacramento'; font-size: 1.5rem; line-height: 1.4; transform: rotate(-1deg); box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">
+                "Tiyasa, you make my world soft, crazy, and beautiful. I promise to always be your biggest fan and your safe place."
             </div>
         </div>
 
-        <div class="glass-card fade-in">
-            <h2>Do you remember? 🤔</h2>
-            <p>When did we confess?</p>
-            <div class="quiz-options">
-                <button onclick="wrongAnswer(this)">1st January</button>
-                <button onclick="correctAnswer(this)">9th May 2023</button>
-                <button onclick="wrongAnswer(this)">14th Feb</button>
-            </div>
-            <p id="quiz-feedback" style="height: 20px; margin-top: 5px; font-weight: bold;"></p>
-        </div>
-
-        <div class="glass-card fade-in">
-            <h2>My Promises 💍</h2>
-            <ul style="text-align: left; list-style: none; padding-left: 10px;">
-                <li style="margin-bottom: 10px;">✨ To always support your dreams.</li>
-                <li style="margin-bottom: 10px;">✨ To listen when you need to talk.</li>
-                <li style="margin-bottom: 10px;">✨ To make you laugh when you're sad.</li>
-                <li style="margin-bottom: 10px;">✨ To love you more every day.</li>
-            </ul>
-        </div>
-
-        <div class="glass-card fade-in" style="margin-bottom: 60px;">
-            <h2>The Question</h2>
-            <p>You are my favorite person.</p>
-            <h3 style="margin: 20px 0;">Will you be my Valentine?</h3>
+        <div class="card visible" style="margin-bottom: 60px;">
+            <h2>The Big Question</h2>
+            <p>Will you be my Valentine?</p>
             
             <div class="proposal-area">
-                <button class="btn-yes" onclick="celebrate()">YES! ❤️</button>
+                <button class="btn-yes" onclick="sheSaidYes()">YES! ❤️</button>
                 <button class="btn-no" id="runaway-btn">No</button>
             </div>
         </div>
@@ -291,119 +242,175 @@
     </div>
 
     <script>
-        /* --- 1. PRELOADER --- */
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('preloader').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('preloader').style.display = 'none';
-                    initScroll();
-                }, 800);
-            }, 1000);
+        /* --- 1. SCROLL ANIMATION --- */
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.card').forEach(card => observer.observe(card));
+
+        /* --- 2. TIMER LOGIC --- */
+        const startDate = new Date('2023-04-04T00:00:00');
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((diff / 1000 / 60) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('days').innerText = days;
+            document.getElementById('hours').innerText = hours;
+            document.getElementById('mins').innerText = mins;
+            document.getElementById('secs').innerText = secs;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        /* --- 3. BALLOON GAME (CANVAS) --- */
+        const bCanvas = document.getElementById('balloon-canvas');
+        const bCtx = bCanvas.getContext('2d');
+        // Fix canvas resolution for mobile
+        bCanvas.width = bCanvas.offsetWidth;
+        bCanvas.height = bCanvas.offsetHeight;
+
+        let balloons = [];
+        let score = 0;
+
+        function createBalloon() {
+            return {
+                x: Math.random() * (bCanvas.width - 30) + 15,
+                y: bCanvas.height + 30,
+                radius: 20,
+                speed: Math.random() * 1.5 + 0.5,
+                color: `hsl(${Math.random()*360}, 70%, 70%)`
+            };
+        }
+
+        function updateBalloons() {
+            bCtx.clearRect(0, 0, bCanvas.width, bCanvas.height);
+            
+            if(Math.random() < 0.02) balloons.push(createBalloon());
+
+            for (let i = 0; i < balloons.length; i++) {
+                let b = balloons[i];
+                b.y -= b.speed;
+                
+                // Draw Balloon
+                bCtx.fillStyle = b.color;
+                bCtx.beginPath();
+                bCtx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
+                bCtx.fill();
+                // String
+                bCtx.beginPath();
+                bCtx.moveTo(b.x, b.y + b.radius);
+                bCtx.lineTo(b.x, b.y + b.radius + 20);
+                bCtx.stroke();
+
+                if (b.y < -30) balloons.splice(i, 1);
+            }
+            requestAnimationFrame(updateBalloons);
+        }
+        updateBalloons();
+
+        // Touch/Click to pop
+        bCanvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const rect = bCanvas.getBoundingClientRect();
+            const touch = e.touches[0];
+            checkPop(touch.clientX - rect.left, touch.clientY - rect.top);
+        });
+        bCanvas.addEventListener('mousedown', (e) => {
+            const rect = bCanvas.getBoundingClientRect();
+            checkPop(e.clientX - rect.left, e.clientY - rect.top);
         });
 
-        /* --- 2. SCROLL ANIMATIONS --- */
-        function initScroll() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('visible');
-                });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        function checkPop(x, y) {
+            for (let i = 0; i < balloons.length; i++) {
+                let b = balloons[i];
+                let dist = Math.hypot(x - b.x, y - b.y);
+                if (dist < b.radius + 10) {
+                    balloons.splice(i, 1);
+                    score++;
+                    document.getElementById('balloon-score').innerText = score;
+                    break;
+                }
+            }
         }
 
-        /* --- 3. CUSTOM CUPID MODAL --- */
-        function showCupidMessage(msg) {
-            const modal = document.getElementById('cupid-modal');
-            const text = document.getElementById('modal-msg');
-            text.innerText = msg;
-            modal.style.display = 'flex';
-        }
-        function closeModal() {
-            document.getElementById('cupid-modal').style.display = 'none';
-        }
-
-        /* --- 4. QUIZ LOGIC --- */
-        function correctAnswer(btn) {
-            btn.classList.add('correct');
-            document.getElementById('quiz-feedback').innerText = "Correct! You know us so well! 😘";
-            createConfetti(btn.getBoundingClientRect().left, btn.getBoundingClientRect().top);
-        }
-        function wrongAnswer(btn) {
-            btn.classList.add('wrong');
-            document.getElementById('quiz-feedback').innerText = "Oops! Try again! 🙈";
-        }
-
-        /* --- 5. RUNAWAY BUTTON --- */
+        /* --- 4. RUNAWAY BUTTON --- */
         const noBtn = document.getElementById('runaway-btn');
-        const moveBtn = () => {
+        const runAway = (e) => {
+            if(e.type === 'touchstart') e.preventDefault();
             const x = Math.random() * (window.innerWidth - 100);
             const y = Math.random() * (window.innerHeight - 100);
             noBtn.style.position = 'fixed';
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
         };
-        noBtn.addEventListener('mouseover', moveBtn);
-        noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveBtn(); });
+        noBtn.addEventListener('mouseover', runAway);
+        noBtn.addEventListener('touchstart', runAway);
 
-        /* --- 6. CELEBRATION (ROSE RAIN) --- */
-        function celebrate() {
+        /* --- 5. YES CELEBRATION --- */
+        function sheSaidYes() {
             const overlay = document.getElementById('success-overlay');
             overlay.style.display = 'flex';
-            setTimeout(() => { overlay.style.opacity = '1'; }, 50);
             
-            // Start Rose Rain
-            setInterval(createPetal, 300);
+            // Trigger Confetti
+            for(let i=0; i<100; i++) {
+                createConfetti();
+            }
         }
 
-        function createPetal() {
-            const petal = document.createElement('div');
-            petal.innerHTML = '🌹';
-            petal.className = 'petal';
-            petal.style.left = Math.random() * 100 + 'vw';
-            petal.style.fontSize = (Math.random() * 20 + 20) + 'px';
-            petal.style.animation = `fall ${Math.random() * 3 + 2}s linear`;
-            document.body.appendChild(petal);
-            setTimeout(() => petal.remove(), 5000);
+        function createConfetti() {
+            const colors = ['#ff4d6d', '#ff8fa3', '#fff0f3', '#ffc2d1'];
+            const c = document.createElement('div');
+            c.style.position = 'fixed';
+            c.style.left = Math.random() * 100 + 'vw';
+            c.style.top = '-10px';
+            c.style.width = '10px';
+            c.style.height = '10px';
+            c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            c.style.animation = `float ${Math.random() * 2 + 3}s linear infinite`;
+            c.style.zIndex = '10000';
+            document.body.appendChild(c);
+            
+            // Simple fall animation
+            let top = -10;
+            let speed = Math.random() * 2 + 2;
+            function fall() {
+                top += speed;
+                c.style.top = top + 'px';
+                if(top < window.innerHeight) requestAnimationFrame(fall);
+                else c.remove();
+            }
+            fall();
         }
 
-        function resetSite() {
-            document.getElementById('success-overlay').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('success-overlay').style.display = 'none';
-                window.scrollTo(0,0);
-            }, 1000);
-        }
+        /* --- 6. BACKGROUND HEARTS --- */
+        const bgCanvas = document.getElementById('bg-canvas');
+        const bgCtx = bgCanvas.getContext('2d');
+        bgCanvas.width = window.innerWidth;
+        bgCanvas.height = window.innerHeight;
 
-        function createConfetti(x, y) {
-            // Simple visual feedback for quiz
-            const el = document.createElement('div');
-            el.innerText = '❤️'; el.style.position='fixed'; el.style.left=x+'px'; el.style.top=y+'px';
-            el.style.transition='all 0.5s'; el.style.zIndex='1000';
-            document.body.appendChild(el);
-            setTimeout(()=>{ el.style.transform='translateY(-50px)'; el.style.opacity='0'; },50);
-            setTimeout(()=>el.remove(),500);
-        }
-
-        /* --- 7. BACKGROUND CANVAS --- */
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        
-        let particles = [];
-        for(let i=0; i<30; i++) {
-            particles.push({
-                x: Math.random()*canvas.width, y: Math.random()*canvas.height,
-                r: Math.random()*10+5, s: Math.random()*1+0.5
+        let hearts = [];
+        for(let i=0; i<20; i++) {
+            hearts.push({
+                x: Math.random()*bgCanvas.width, y: Math.random()*bgCanvas.height,
+                size: Math.random()*15+5, speed: Math.random()*0.5+0.2
             });
         }
+
         function drawBg() {
-            ctx.clearRect(0,0,canvas.width,canvas.height);
-            ctx.fillStyle = '#ffb3c1';
-            particles.forEach(p => {
-                p.y -= p.s;
-                if(p.y < -10) p.y = canvas.height+10;
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.r/2, 0, Math.PI*2); ctx.fill();
+            bgCtx.clearRect(0,0,bgCanvas.width, bgCanvas.height);
+            bgCtx.fillStyle = 'rgba(255, 77, 109, 0.3)';
+            hearts.forEach(h => {
+                h.y -= h.speed;
+                if(h.y < -20) h.y = bgCanvas.height + 20;
+                bgCtx.font = h.size + 'px Arial';
+                bgCtx.fillText('❤️', h.x, h.y);
             });
             requestAnimationFrame(drawBg);
         }
