@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>For Tiyasa ❤️</title>
+    <style>
+        /* --- CORE STYLES & FONTS --- */
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500;700&display=swap');
+
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #ff8fa3;
+            --bg-color: #ffe5ec;
+            --glass: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --text: #590d22;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--bg-color);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* --- BACKGROUND EFFECTS --- */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* --- PRELOADER --- */
+        #preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff0f3;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease;
+        }
+        .heart-loader {
+            font-size: 4rem;
+            animation: beat 0.8s infinite;
+        }
+        .loading-text {
+            margin-top: 15px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        /* --- GLASSMORPHISM CONTAINER --- */
+        .container {
+            max-width: 600px; /* Mobile focused */
+            margin: 20px auto;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            text-align: center;
+            opacity: 0; /* For fade in */
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+
+        .glass-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1, h2 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--primary);
+        }
+        h1 { font-size: 3rem; margin-bottom: 10px; }
+        h2 { font-size: 2rem; margin-bottom: 15px; }
+        p { font-size: 1.1rem; line-height: 1.6; margin-bottom: 15px; }
+
+        /* --- TIMELINE --- */
+        .date-badge {
+            display: inline-block;
+            background: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+
+        /* --- FLIRTY CLICK TEXTS --- */
+        .click-me-text {
+            color: var(--primary);
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        .click-me-text:active { transform: scale(0.9); }
+
+        /* --- CUPID GAME --- */
+        #game-area {
+            height: 200px;
+            position: relative;
+            background: rgba(255,255,255,0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-top: 10px;
+            cursor: crosshair;
+        }
+        .cupid-target {
+            position: absolute;
+            font-size: 2rem;
+            user-select: none;
+            transition: top 0.3s, left 0.3s;
+        }
+        #score-board { font-weight: bold; color: var(--primary); }
+
+        /* --- BUTTERFLY ANIMATION --- */
+        .butterfly {
+            position: fixed;
+            font-size: 1.5rem;
+            pointer-events: none;
+            z-index: 5;
+            animation: float 10s linear infinite;
+        }
+
+        /* --- THE PROPOSAL --- */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            position: relative; /* For absolute positioning of No button */
+            height: 60px;
+        }
+
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-yes {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+            z-index: 20;
+        }
+
+        .btn-no {
+            background: white;
+            color: var(--text);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: absolute; /* Allows movement */
+        }
+
+        /* --- KEYFRAMES --- */
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        @keyframes float {
+            0% { transform: translateY(110vh) translateX(-10vw) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(-10vh) translateX(10vw) rotate(20deg); opacity: 0; }
+        }
+        @keyframes pop {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 400px) {
+            h1 { font-size: 2.5rem; }
+            .glass-card { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="heart-loader">❤️</div>
+        <div class="loading-text">Loading love for Tiyasa...</div>
+    </div>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="container">
+        
+        <div class="glass-card fade-in">
+            <h1>Hi Tiyasa 🦋</h1>
+            <p>I made this little corner of the internet just for you. Get ready for some cheese, some truth, and a whole lot of love.</p>
+        </div>
+
+        <div class="glass-card fade-in">
+            <h2>Our Journey ✨</h2>
+            <div style="text-align: left; margin-top: 20px;">
+                <div class="date-badge">4th April, 2023</div>
+                <p>The day the universe decided to align. We started knowing each other, and honestly? My life got brighter that very day.</p>
+                <br>
+                <div class="date-badge">9th May, 2023</div>
+                <p>The Confession. The moment everything changed. From strangers to something so special and soothing. It's been the most beautiful ride.</p>
+            </div>
+        </div>
+
+        <div class="glass-card fade-in">
+            <h2>Tap for Love 💌</h2>
+            <p id="flirty-text" class="click-me-text" onclick="changeFlirt()">Tap here to see why I adore you...</p>
+        </div>
+
+        <div class="glass-card fade-in">
+            <h2>Catch Cupid's Heart 💘</h2>
+            <p>Score: <span id="score-board">0</span></p>
+            <div id="game-area" onclick="missedClick(event)">
+                </div>
+            <p style="font-size: 0.8rem; margin-top: 5px; opacity: 0.7;">(Tap the hearts before they disappear!)</p>
+        </div>
+
+        <div class="glass-card fade-in" style="margin-bottom: 50px;">
+            <h2>The Big Question</h2>
+            <p>You make my world soft, crazy, and beautiful all at once.</p>
+            <p style="font-size: 1.3rem; font-weight: bold; margin: 20px 0;">Will you be my Valentine?</p>
+            
+            <div class="btn-group">
+                <button class="btn-yes" onclick="sheSaidYes()">YES! ❤️</button>
+                <button class="btn-no" id="noBtn" onmouseover="moveButton()" ontouchstart="moveButton()">No 🙈</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. PRELOADER & FADE IN ---
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            preloader.style.opacity = '0';
+            setTimeout(() => {
+                preloader.style.display = 'none';
+                revealSections();
+            }, 1000);
+        });
+
+        function revealSections() {
+            const sections = document.querySelectorAll('.fade-in');
+            sections.forEach((sec, index) => {
+                setTimeout(() => {
+                    sec.classList.add('visible');
+                }, index * 300);
+            });
+        }
+
+        // --- 2. DYNAMIC BACKGROUND (SWIMMING HEARTS) ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 40;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 15 + 5;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * 2 - 1;
+                this.color = `rgba(255, 77, 109, ${Math.random() * 0.3 + 0.1})`;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                // Draw heart shape
+                let topCurveHeight = this.size * 0.3;
+                ctx.moveTo(this.x, this.y + topCurveHeight);
+                ctx.bezierCurveTo(this.x, this.y, this.x - this.size / 2, this.y, this.x - this.size / 2, this.y + topCurveHeight);
+                ctx.bezierCurveTo(this.x - this.size / 2, this.y + (this.size + topCurveHeight) / 2, this.x, this.y + (this.size + topCurveHeight) / 2, this.x, this.y + this.size);
+                ctx.bezierCurveTo(this.x, this.y + (this.size + topCurveHeight) / 2, this.x + this.size / 2, this.y + (this.size + topCurveHeight) / 2, this.x + this.size / 2, this.y + topCurveHeight);
+                ctx.bezierCurveTo(this.x + this.size / 2, this.y, this.x, this.y, this.x, this.y + topCurveHeight);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) { particles.push(new Particle()); }
+
+        function animateBg() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+
+        // --- 3. FLIRTY TEXT GENERATOR ---
+        const flirtyLines = [
+            "Your smile is literally my favorite thing. 😍",
+            "Are you a magician? Because whenever I look at you, everyone else disappears.",
+            "You have the cutest laugh I've ever heard.",
+            "My life has been 100x better since April 4th.",
+            "You are glowing today (like always). ✨",
+            "I'm so lucky you chose me.",
+            "Every love song makes sense now."
+        ];
+        
+        function changeFlirt() {
+            const textElement = document.getElementById('flirty-text');
+            const randomLine = flirtyLines[Math.floor(Math.random() * flirtyLines.length)];
+            textElement.style.transform = "scale(0.8)";
+            setTimeout(() => {
+                textElement.innerText = randomLine;
+                textElement.style.transform = "scale(1)";
+            }, 200);
+        }
+
+        // --- 4. THE UNCLICKABLE NO BUTTON ---
+        const noBtn = document.getElementById('noBtn');
+        const btnGroup = document.querySelector('.btn-group');
+
+        function moveButton() {
+            const containerRect = btnGroup.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+            
+            // Calculate max boundaries relative to viewport to prevent it getting stuck
+            const maxX = window.innerWidth - btnRect.width - 20;
+            const maxY = window.innerHeight - btnRect.height - 20;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+
+            noBtn.style.position = 'fixed'; // Switch to fixed to fly anywhere on screen
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        function sheSaidYes() {
+            // Explosion of hearts
+            createButterflies();
+            document.querySelector('.container').innerHTML = `
+                <div class="glass-card" style="animation: pop 0.5s forwards;">
+                    <h1 style="font-size: 4rem;">YAY! 💖</h1>
+                    <p>I knew you couldn't resist! Happy Valentine's Day, Tiyasa!</p>
+                    <p>I love you so much! 🌹</p>
+                    <div style="font-size: 5rem; margin-top: 20px;">💑</div>
+                </div>
+            `;
+        }
+
+        // --- 5. CUPID GAME ---
+        let score = 0;
+        const gameArea = document.getElementById('game-area');
+        
+        function spawnTarget() {
+            const target = document.createElement('div');
+            target.innerHTML = '💘'; // Cupid arrow heart
+            target.className = 'cupid-target';
+            target.style.top = Math.random() * (gameArea.offsetHeight - 40) + 'px';
+            target.style.left = Math.random() * (gameArea.offsetWidth - 40) + 'px';
+            
+            target.onclick = (e) => {
+                e.stopPropagation();
+                score++;
+                document.getElementById('score-board').innerText = score;
+                target.remove();
+                createMiniExplosion(e.clientX, e.clientY);
+            };
+
+            gameArea.appendChild(target);
+
+            // Remove after 1.5 seconds if not clicked
+            setTimeout(() => {
+                if(target.parentElement) target.remove();
+            }, 1500);
+        }
+
+        // Spawn a target every 800ms
+        setInterval(spawnTarget, 800);
+
+        function missedClick(e) {
+            // Visual feedback for missing
+        }
+
+        function createMiniExplosion(x, y) {
+            const el = document.createElement('div');
+            el.innerHTML = '+1';
+            el.style.position = 'fixed';
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+            el.style.color = '#ff4d6d';
+            el.style.fontWeight = 'bold';
+            el.style.pointerEvents = 'none';
+            el.style.transition = 'all 0.5s';
+            document.body.appendChild(el);
+            setTimeout(() => {
+                el.style.transform = 'translateY(-20px)';
+                el.style.opacity = 0;
+            }, 50);
+            setTimeout(() => el.remove(), 500);
+        }
+
+        // --- 6. BUTTERFLY GENERATOR ---
+        function createButterflies() {
+            for(let i=0; i<15; i++) {
+                const b = document.createElement('div');
+                b.innerHTML = '🦋';
+                b.className = 'butterfly';
+                b.style.left = Math.random() * 100 + 'vw';
+                b.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                document.body.appendChild(b);
+            }
+        }
+        
+        // Start some butterflies initially
+        createButterflies();
+
+    </script>
+</body>
+</html>
